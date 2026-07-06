@@ -1,0 +1,22 @@
+# Managed by Fintech Reviewer — model & data rules are locked by Guardrails.
+version: 1
+app: dynamo
+model: gemini-3.5-flash
+budget:
+  daily_usd: 5
+  rate_per_hour: 20
+checks:
+  - id: golden-signals
+    enabled: true
+    visibility: public
+    prompt: >-
+      Review the diff for observability gaps: new/changed endpoints, jobs, or external
+      calls with no metric, log, or error signal for latency / errors / saturation.
+      Cite the file and line and name the concrete signal to add.
+  - id: secrets-and-pii
+    enabled: true
+    visibility: public
+    prompt: >-
+      Flag any diff hunk that hardcodes a secret (token, key, password) or logs
+      credentials / PII. Reading from env and redaction patterns are fine; literal
+      secret values are not. Cite the file and line.
